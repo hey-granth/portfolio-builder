@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h1>Edit Portfolio</h1>
+  <form action="{{ url_for('update') }}" method="post">
+    <section class="form-section">
+      <h2>Basic Information</h2>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ portfolio.name }}">
+      </div>
+      <div class="form-group">
+        <label for="title">Professional Title:</label>
+        <input type="text" id="title" name="title" value="{{ portfolio.title }}">
+      </div>
+      <div class="form-group">
+        <label for="about">About Me:</label>
+        <textarea id="about" name="about">{{ portfolio.about }}</textarea>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h2>Skills</h2>
+      <div class="form-group" id="skills-container">
+        {% for skill in portfolio.skills %}
+        <input type="text" name="skills" value="{{ skill }}">
+        {% endfor %}
+        <input type="text" name="skills">
+      </div>
+      <button type="button" onclick="addSkillField()">Add Skill</button>
+    </section>
+
+    <section class="form-section">
+      <h2>Projects</h2>
+      <div id="projects-container">
+        {% for project in portfolio.projects %}
+        <div class="project-entry">
+          <input type="text" name="project_title" placeholder="Project Title" value="{{ project.title }}">
+          <textarea name="project_description" placeholder="Project Description">{{ project.description }}</textarea>
+          <input type="text" name="project_link" placeholder="Project Link" value="{{ project.link }}">
+        </div>
+        {% endfor %}
+        <div class="project-entry">
+          <input type="text" name="project_title" placeholder="Project Title">
+          <textarea name="project_description" placeholder="Project Description"></textarea>
+          <input type="text" name="project_link" placeholder="Project Link">
+        </div>
+      </div>
+      <button type="button" onclick="addProjectFields()">Add Project</button>
+    </section>
+
+    <section class="form-section">
+      <h2>Contact Information</h2>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ portfolio.contact.email }}">
+      </div>
+      <div class="form-group">
+        <label for="linkedin">LinkedIn URL:</label>
+        <input type="url" id="linkedin" name="linkedin" value="{{ portfolio.contact.linkedin }}">
+      </div>
+      <div class="form-group">
+        <label for="github">GitHub URL:</label>
+        <input type="url" id="github" name="github" value="{{ portfolio.contact.github }}">
+      </div>
+    </section>
+
+    <button type="submit" class="submit-btn">Save Portfolio</button>
+  </form>
+</div>
+
+<script>
+  function addSkillField() {
+    const container = document.getElementById('skills-container');
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'skills';
+    container.appendChild(input);
+  }
+
+  function addProjectFields() {
+    const container = document.getElementById('projects-container');
+    const projectDiv = document.createElement('div');
+    projectDiv.className = 'project-entry';
+
+    const titleInput = document.createElement('input');
+    titleInput.type = 'text';
+    titleInput.name = 'project_title';
+    titleInput.placeholder = 'Project Title';
+
+    const descTextarea = document.createElement('textarea');
+    descTextarea.name = 'project_description';
+    descTextarea.placeholder = 'Project Description';
+
+    const linkInput = document.createElement('input');
+    linkInput.type = 'text';
+    linkInput.name = 'project_link';
+    linkInput.placeholder = 'Project Link';
+
+    projectDiv.appendChild(titleInput);
+    projectDiv.appendChild(descTextarea);
+    projectDiv.appendChild(linkInput);
+    container.appendChild(projectDiv);
+  }
+</script>
+{% endblock %}
